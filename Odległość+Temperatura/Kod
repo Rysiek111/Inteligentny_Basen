@@ -1,0 +1,137 @@
+#include <LiquidCrystal_I2C.h>
+#include <OneWire.h>
+#include <DallasTemperature.h>
+
+
+LiquidCrystal_I2C lcd(0x27, 2, 16);
+OneWire oneWire(0);
+DallasTemperature sensorsOneWire(&oneWire);
+
+
+byte pla[8] = {
+  0b00000,
+  0b00000,
+  0b01110,
+  0b00001,
+  0b01111,
+  0b10001,
+  0b01111,
+  0b00100
+};
+byte plc[8] = {
+  0b00010,
+  0b00100,
+  0b01110,
+  0b10000,
+  0b10000,
+  0b10001,
+  0b01110,
+  0b00000
+};
+byte ple[8] = {
+  0b00000,
+  0b00000,
+  0b01110,
+  0b10001,
+  0b11111,
+  0b10000,
+  0b01110,
+  0b00100
+};
+byte pll[8] = {
+  0b01100,
+  0b00100,
+  0b00110,
+  0b00100,
+  0b01100,
+  0b00100,
+  0b01110,
+  0b00000
+};
+byte pln[8] = {
+  0b00010,
+  0b00100,
+  0b11110,
+  0b10001,
+  0b10001,
+  0b10001,
+  0b10001,
+  0b00000
+};
+byte plo[8] = {
+  0b00010,
+  0b00100,
+  0b01110,
+  0b10001,
+  0b10001,
+  0b10001,
+  0b01110,
+  0b00000
+};
+byte pls[8] = {
+  0b00010,
+  0b00100,
+  0b01110,
+  0b10000,
+  0b01110,
+  0b00001,
+  0b11110,
+  0b00000
+};
+byte plz[8] = {
+  0b00100,
+  0b00000,
+  0b11111,
+  0b00010,
+  0b00100,
+  0b01000,
+  0b11111,
+  0b00000
+};
+
+double ultraSonicDistance(int trigPin, int echoPin) {
+  digitalWrite(trigPin, LOW);
+  delayMicroseconds(2);
+  digitalWrite(trigPin, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(trigPin, LOW);
+  long microseconds = pulseIn(echoPin, HIGH);
+  return (double)(microseconds/58);
+}
+
+int getDS18B20Value(int index) {
+  sensorsOneWire.requestTemperatures();
+  return sensorsOneWire.getTempCByIndex(index);
+}
+
+
+void setup() {
+  pinMode(0, OUTPUT);
+  pinMode(12, OUTPUT);
+  pinMode(13, INPUT);
+  lcd.init();
+  lcd.backlight();
+  lcd.createChar(0, pla);
+  lcd.createChar(1, plc);
+  lcd.createChar(2, ple);
+  lcd.createChar(3, pll);
+  lcd.createChar(4, pln);
+  lcd.createChar(5, plo);
+  lcd.createChar(6, pls);
+  lcd.createChar(7, plz);
+  lcd.clear();
+  sensorsOneWire.begin();
+}
+
+void loop() {
+  lcd.setCursor(0, 0);
+  lcd.print(ultraSonicDistance(12, 13));
+  lcd.setCursor(0, 1);
+  lcd.print(getDS18B20Value(0));
+  if (( 40 == getDS18B20Value(0))) {
+    digitalWrite(0, LOW);
+  }
+  if (( 20 == getDS18B20Value(0))) {
+    digitalWrite(0, HIGH);
+  }
+}
