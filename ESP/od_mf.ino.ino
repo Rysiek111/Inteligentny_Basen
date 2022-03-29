@@ -28,7 +28,7 @@ const char* ssid = "Basen";
 
 const unsigned int port = 80;
 ESP8266WebServer server(port);
-String HTMLHeader() { //nagłówek strony
+String HTMLHeader() {
   String h = "<!DOCTYPE html>\n";
   h += "<html>";
   h += "<head>";
@@ -41,7 +41,7 @@ String HTMLHeader() { //nagłówek strony
 
   return h;
 }
-String HTMLFooter() {    // stopka strony www
+String HTMLFooter() { 
   String f = "";
   f += "<p>Adam Chodóra, Ryszard Górczak,Szymon Kosma 2021 &copy;</p></td></tr>";
   f += "</body>\n";
@@ -63,69 +63,69 @@ String HTMLPage() {
 String WebPage() {
   return HTMLHeader() + HTMLPage() + HTMLFooter();
 }
-//funkcja ustala adresy poszczególnych działań serwera www
+
 void setservers(void) {
-  //adres główny
+
   server.on("/", []() {
     server.send(200, "text/html", WebPage());
   });
-  //adres lewo
+
   server.on("/glowny", []() {
-    digitalWrite(pinLED, LOW); //stan niski załacza LED wewnętrzny
-    digitalWrite(przekaznik1, LOW); //stan wysoki wyłącza LED wewnętrzny
-    server.send(200, "text/html", WebPage());
-  });
-  //adres prawo
-  server.on("/retencyjny", []() {
-    digitalWrite(pinLED, HIGH); //stan wysoki wyłącza LED wewnętrzny
-    digitalWrite(przekaznik1, HIGH); //stan niski załacza LED wewnętrzny
-    server.send(200, "text/html", WebPage());
-  });
-    //adres off pompka
-  server.on("/pompka-OFF", []() {
-    digitalWrite(pinLED, HIGH); //stan wysoki wyłącza LED wewnętrzny
-    digitalWrite(przekaznik1, LOW); //stan niski załacza LED wewnętrzny
+    digitalWrite(pinLED, LOW); 
+    digitalWrite(przekaznik1, LOW); 
     server.send(200, "text/html", WebPage());
   });
 
-  //adres załączajacy przekaźnik2
+  server.on("/retencyjny", []() {
+    digitalWrite(pinLED, HIGH); 
+    digitalWrite(przekaznik1, HIGH); 
+    server.send(200, "text/html", WebPage());
+  });
+
+  server.on("/pompka-OFF", []() {
+    digitalWrite(pinLED, HIGH); 
+    digitalWrite(przekaznik1, LOW); 
+    server.send(200, "text/html", WebPage());
+  });
+
+  
   server.on("/przekaznik2-wlaczony", []() {
-    digitalWrite(przekaznik2, LOW); //stan niski załacza LED wewnętrzny
+    digitalWrite(przekaznik2, LOW); 
     server.send(200, "text/html", WebPage());
   });
-  //adres wyłączajacy przekaźnik2
+
   server.on("/przekaznik2-wylaczony", []() {
-    digitalWrite(przekaznik2, HIGH); //stan wysoki wyłącza LED wewnętrzny
+    digitalWrite(przekaznik2, HIGH); 
     server.send(200, "text/html", WebPage());
   });
-  //adres załączajacy przekaźnik3
+
   server.on("/przekaznik3-wlaczony", []() {
-    digitalWrite(przekaznik3, LOW); //stan niski załacza LED wewnętrzny
+    digitalWrite(przekaznik3, LOW); 
     server.send(200, "text/html", WebPage());
   });
-  //adres wyłączajacy przekaźnik3
+
   server.on("/przekaznik3-wylaczony", []() {
-    digitalWrite(przekaznik3, HIGH); //stan wysoki wyłącza LED wewnętrzny
+    digitalWrite(przekaznik3, HIGH); 
     server.send(200, "text/html", WebPage());
   });
-  //adres załączajacy przekaźnik4
+
   server.on("/przekaznik4-wlaczony", []() {
-    digitalWrite(przekaznik4, LOW); //stan niski załacza LED wewnętrzny
+    digitalWrite(przekaznik4, LOW); 
     server.send(200, "text/html", WebPage());
   });
-  //adres wyłączajacy przekaźnik4
+ 
   server.on("/przekaznik4-wylaczony", []() {
-    digitalWrite(przekaznik4, HIGH); //stan wysoki wyłącza LED wewnętrzny
+    digitalWrite(przekaznik4, HIGH); 
     server.send(200, "text/html", WebPage());
   });
-  //adres załączajacy przekaźnik5
+
   server.on("/przekaznik5-wlaczony", []() {
-    digitalWrite(przekaznik5, LOW); //stan niski załacza LED wewnętrzny
+    digitalWrite(przekaznik5, LOW); 
     server.send(200, "text/html", WebPage());
   });
-  //adres wyłączajacy przekaźnik1
+
   server.on("/przekaznik5-wylaczony", []() {
-    digitalWrite(przekaznik5, HIGH); //stan wysoki wyłącza LED wewnętrzny
+    digitalWrite(przekaznik5, HIGH); 
     server.send(200, "text/html", WebPage());
   });
 
@@ -149,7 +149,7 @@ void setservers(void) {
     server.send(200, "text/html", WebPage());
   });
 
-  server.begin(); // Start serwera www
+  server.begin(); 
 }
 
 
@@ -167,29 +167,27 @@ void setup() {
   WiFi.softAP("Basen");
   //Sieć koniec kodu
 
-  //Servis www
   //Serial.begin(115200);
-  //ustaw pin z LED na OUTPUT
   pinMode(pinLED, OUTPUT);
-  //wyłącz LED
+
   digitalWrite(pinLED, LOW);
   pinMode(przekaznik1, OUTPUT);
-  //wyłącz przekaznik
+
   digitalWrite(przekaznik1, LOW);
   pinMode(przekaznik2, OUTPUT);
-  //wyłącz przekaznik
+
   digitalWrite(przekaznik2, LOW);
   pinMode(przekaznik3, OUTPUT);
-  //wyłącz przekaznik
+
   digitalWrite(przekaznik3, LOW);
   pinMode(przekaznik4, OUTPUT);
-  //wyłącz przekaznik
+
   digitalWrite(przekaznik4, LOW);
   pinMode(przekaznik5, OUTPUT);
-  //wyłącz przekaznik
+
   digitalWrite(przekaznik5, LOW);
   
-  pixels.begin(); // This initializes the NeoPixel library.
+  pixels.begin(); 
   
   for(int led=0; led <=NUM_LEDS; led++)
   { 
