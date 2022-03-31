@@ -102,11 +102,11 @@ void setup() {
   lcd.createChar(7, plz);
   lcd.clear();
   lata = 2022;
-  miesiace = 1;
-  dni = 28;
-  godziny = 20;
-  minuty = 43;
-  sekundy = 40;
+  miesiace = 4;
+  dni = 2;
+  godziny = 19;
+  minuty = 50;
+  sekundy = 0;
 }
 
 void loop() {
