@@ -1,0 +1,229 @@
+#include <LiquidCrystal_I2C.h>
+
+LiquidCrystal_I2C lcd(0x27, 2, 16);
+
+byte pla[8] = {
+  0b00000,
+  0b00000,
+  0b01110,
+  0b00001,
+  0b01111,
+  0b10001,
+  0b01111,
+  0b00100
+};
+byte plc[8] = {
+  0b00010,
+  0b00100,
+  0b01110,
+  0b10000,
+  0b10000,
+  0b10001,
+  0b01110,
+  0b00000
+};
+byte ple[8] = {
+  0b00000,
+  0b00000,
+  0b01110,
+  0b10001,
+  0b11111,
+  0b10000,
+  0b01110,
+  0b00100
+};
+byte pll[8] = {
+  0b01100,
+  0b00100,
+  0b00110,
+  0b00100,
+  0b01100,
+  0b00100,
+  0b01110,
+  0b00000
+};
+byte pln[8] = {
+  0b00010,
+  0b00100,
+  0b11110,
+  0b10001,
+  0b10001,
+  0b10001,
+  0b10001,
+  0b00000
+};
+byte plo[8] = {
+  0b00010,
+  0b00100,
+  0b01110,
+  0b10001,
+  0b10001,
+  0b10001,
+  0b01110,
+  0b00000
+};
+byte pls[8] = {
+  0b00010,
+  0b00100,
+  0b01110,
+  0b10000,
+  0b01110,
+  0b00001,
+  0b11110,
+  0b00000
+};
+byte plz[8] = {
+  0b00100,
+  0b00000,
+  0b11111,
+  0b00010,
+  0b00100,
+  0b01000,
+  0b11111,
+  0b00000
+};
+int lata;
+int miesiace;
+int dni;
+int godziny;
+int minuty;
+int sekundy;
+
+void setup() {
+  lcd.init();
+  lcd.backlight();
+  lcd.createChar(0, pla);
+  lcd.createChar(1, plc);
+  lcd.createChar(2, ple);
+  lcd.createChar(3, pll);
+  lcd.createChar(4, pln);
+  lcd.createChar(5, plo);
+  lcd.createChar(6, pls);
+  lcd.createChar(7, plz);
+  lcd.clear();
+  lata = 2022;
+  miesiace = 1;
+  dni = 28;
+  godziny = 20;
+  minuty = 43;
+  sekundy = 40;
+}
+
+void loop() {
+  lcd.setCursor(0, 0);
+  lcd.print(dni);
+  lcd.setCursor(2, 0);
+  lcd.print(":");
+  lcd.setCursor(3, 0);
+  lcd.print(miesiace);
+  lcd.setCursor(5, 0);
+  lcd.print(":");
+  lcd.setCursor(6, 0);
+  lcd.print(lata);
+  lcd.setCursor(6, 1);
+  lcd.print(sekundy);
+  lcd.setCursor(2, 1);
+  lcd.print(":");
+  lcd.setCursor(3, 1);
+  lcd.print(minuty);
+  lcd.setCursor(5, 1);
+  lcd.print(":");
+  lcd.setCursor(0, 1);
+  lcd.print(godziny);
+  if (( sekundy <= 60)) {
+    sekundy++;
+    delay(1 * 1000);
+  }
+  if (( sekundy == 60)) {
+    lcd.clear();
+    sekundy = 0;
+    minuty++;
+  }
+  if (( minuty == 60)) {
+    minuty = 0;
+    godziny++;
+  }
+  if (( godziny == 24)) {
+    godziny = 0;
+    dni++;
+  }
+  if (( miesiace == 1)) {
+    if (( dni == 31)) {
+      dni = 1;
+      miesiace++;
+    }
+  }
+  if (( miesiace == 2) && ( (double)(lata % 4) == 0)) {
+    if (( dni == 29)) {
+      dni = 1;
+      miesiace++;
+    }
+  } else {
+    if (( miesiace == 2)) {
+      if (( dni == 28)) {
+        dni = 1;
+        miesiace++;
+      }
+    }
+  }
+  if (( miesiace == 3)) {
+    if (( dni == 31)) {
+      dni = 1;
+      miesiace++;
+    }
+  }
+  if (( miesiace == 4)) {
+    if (( dni == 30)) {
+      dni = 1;
+      miesiace++;
+    }
+  }
+  if (( miesiace == 5)) {
+    if (( dni == 31)) {
+      dni = 1;
+      miesiace++;
+    }
+  }
+  if (( miesiace == 6)) {
+    if (( dni == 30)) {
+      dni = 1;
+      miesiace++;
+    }
+  }
+  if (( miesiace == 7)) {
+    if (( dni == 31)) {
+      dni = 1;
+      miesiace++;
+    }
+  }
+  if (( miesiace == 8)) {
+    if (( dni == 31)) {
+      dni = 1;
+      miesiace++;
+    }
+  }
+  if (( miesiace == 9)) {
+    if (( dni == 30)) {
+      dni = 1;
+      miesiace++;
+    }
+  }
+  if (( miesiace == 19)) {
+    if (( dni == 31)) {
+      dni = 1;
+      miesiace++;
+    }
+  }
+  if (( miesiace == 11)) {
+    if (( dni == 30)) {
+      dni = 1;
+      miesiace++;
+    }
+  }
+  if (( miesiace == 12)) {
+    if (( dni == 31)) {
+      miesiace = 1;
+      lata++;
+    }
+  }
+}
