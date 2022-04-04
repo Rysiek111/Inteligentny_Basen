@@ -12,7 +12,7 @@
 Adafruit_NeoPixel pixels = Adafruit_NeoPixel(NUMPIXELS, PINLED, NEO_GRB + NEO_KHZ800);
 
 const char* ssid = "Basen";
-
+const char* password = "1234567890";
 
 const unsigned int port = 80;
 ESP8266WebServer server(port);
@@ -47,9 +47,6 @@ String HTMLPage() {
   p += ( (digitalRead(przekaznik1) == 0) ? "<p><a href = \"/przekaznik1-wylaczony\"><button class=\"btn btn-danger\">przekaźnik WŁĄCZONY</button></a></p>\n" : "<p><a href = \"/przekaznik1-wlaczony\"><button class=\"btn btn-success\">przekaźnik WYŁĄCZONY</button></a></p>\n");
   p += ( (digitalRead(przekaznik2) == 0) ? "<p><a href = \"/przekaznik2-wylaczony\"><button class=\"btn btn-danger\">przekaźnik WŁĄCZONY</button></a></p>\n" : "<p><a href = \"/przekaznik2-wlaczony\"><button class=\"btn btn-success\">przekaźnik WYŁĄCZONY</button></a></p>\n");
   p += ( (digitalRead(przekaznik3) == 0) ? "<p><a href = \"/przekaznik3-wylaczony\"><button class=\"btn btn-danger\">przekaźnik WŁĄCZONY</button></a></p>\n" : "<p><a href = \"/przekaznik3-wlaczony\"><button class=\"btn btn-success\">przekaźnik WYŁĄCZONY</button></a></p>\n");
-  //  p += ( (digitalRead(przekaznik4) == 0) ? "<p><a href = \"/przekaznik4-wylaczony\"><button class=\"btn btn-danger\">przekaźnik WŁĄCZONY</button></a></p>\n" : "<p><a href = \"/przekaznik4-wlaczony\"><button class=\"btn btn-success\">przekaźnik WYŁĄCZONY</button></a></p>\n");
-  //  p += ( (digitalRead(przekaznik5) == 0) ? "<p><a href = \"/przekaznik5-wylaczony\"><button class=\"btn btn-danger\">przekaźnik WŁĄCZONY</button></a></p>\n" : "<p><a href = \"/przekaznik5-wlaczony\"><button class=\"btn btn-success\">przekaźnik WYŁĄCZONY</button></a></p>\n");
-  // p += ( (digitalRead(przekaznik6) == 0) ? "<p><a href = \"/przekaznik6-wylaczony\"><button class=\"btn btn-danger\">przekaźnik WŁĄCZONY</button></a></p>\n" : "<p><a href = \"/przekaznik6-wlaczony\"><button class=\"btn btn-success\">przekaźnik WYŁĄCZONY</button></a></p>\n");
   return p;
 }
 
@@ -105,57 +102,6 @@ void setservers(void) {
     digitalWrite(przekaznik3, HIGH); 
     server.send(200, "text/html", WebPage());
   });
-  
-  //  server.on("/przekaznik4-wlaczony", []() {
-  //    digitalWrite(przekaznik4, LOW); 
-  //    server.send(200, "text/html", WebPage());
-  //  });
-  //  
-  //  server.on("/przekaznik4-wylaczony", []() {
-  //    digitalWrite(przekaznik4, HIGH); 
-  //    server.send(200, "text/html", WebPage());
-  //  });
-  //  
-  //  server.on("/przekaznik5-wlaczony", []() {
-  //    digitalWrite(przekaznik5, LOW); 
-  //    server.send(200, "text/html", WebPage());
-  //  });
-  //  
-  //  server.on("/przekaznik5-wylaczony", []() {
-  //    digitalWrite(przekaznik5, HIGH); 
-  //    server.send(200, "text/html", WebPage());
-  //  });
-  //
-  //  server.on("/przekaznik6-wlaczony", []() {
-  //    digitalWrite(przekaznik6, LOW); 
-  //    server.send(200, "text/html", WebPage());
-  //  });
-  //
-  //  server.on("/przekaznik6-wylaczony", []() {
-  //    digitalWrite(przekaznik6, HIGH); 
-  //    server.send(200, "text/html", WebPage());
-  //  });
-  //  server.on("/LED", []() {
-  //    //    int redColor = RED;
-  //    //    int greenColor = GREEN.value;
-  //    //    int blueColor = BLUE.value;
-  //    //
-  //    //    pixels.begin();
-  //    //
-  //    //    for (int i = 0; i < NUMPIXELS; i++) {
-  //    //
-  //    //      pixels.setPixelColor(i, pixels.Color(redColor, greenColor, blueColor));
-  //    //
-  //    //
-  //    //      pixels.show();
-  //    //
-  //    //
-  //    //      delay(100);
-  //    //    }
-  //    //
-  //    server.send(200, "text/html", WebPage());
-  //  });
-
   server.begin(); // Start serwera www
 }
 
@@ -193,17 +139,7 @@ void setup() {
 
   digitalWrite(przekaznik3, LOW);
 
-  //  pinMode(przekaznik4, OUTPUT);
-  //
-  //  digitalWrite(przekaznik4, LOW);
 
-  //  pinMode(przekaznik5, OUTPUT);
-  //
-  //  digitalWrite(przekaznik5, LOW);
-
-  //  pinMode(przekaznik6, OUTPUT);
-  //
-  //  digitalWrite(przekaznik6, LOW);
   setservers();
 
 }
