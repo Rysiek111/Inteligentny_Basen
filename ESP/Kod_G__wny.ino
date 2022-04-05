@@ -1,15 +1,26 @@
-#include <Adafruit_NeoPixel.h>
 #include <ESP8266WiFi.h>
 #include <ESP8266WebServer.h>
 #define pinLED D0
 #define przekaznik1 D1
 #define przekaznik2 D2
 #define przekaznik3 D3
-#define PINLED D6
-#define przekaznik6 D7
-#define NUMPIXELS      46
+#define PINLED D5
 
-Adafruit_NeoPixel pixels = Adafruit_NeoPixel(NUMPIXELS, PINLED, NEO_GRB + NEO_KHZ800);
+
+//LEDY
+#include <Adafruit_NeoPixel.h>
+#define LED_PIN     D5
+#define NUM_LEDS    34
+bool ledstate = 0;
+Adafruit_NeoPixel pixels = Adafruit_NeoPixel(NUM_LEDS, LED_PIN, NEO_GRB + NEO_KHZ800);
+void setColor(int led, int redValue, int greenValue, int blueValue, int delayValue)
+{
+  pixels.setPixelColor(led, pixels.Color(redValue, greenValue, blueValue)); 
+  pixels.show();
+  delay(delayValue);
+}
+//koniec ledy
+
 
 const char* ssid = "Basen";
 const char* password = "1234567890";
@@ -39,14 +50,11 @@ String HTMLFooter() {
 String HTMLPage() {
   String p = "";
   p += "<p><h3>Sterowanie basenem</h3></p>\n";
-  p += ( "R: <INPUT TYPE=number ID='RED'  VALUE='0' MIN='0' MAX='255' SIZE='25' MAXLENGTH='50'></FORM>");
-  p += ( "G: <INPUT TYPE=number ID='GREEN'  VALUE='0' MIN='0' MAX='255' SIZE='25' MAXLENGTH='50'></FORM>");
-  p += ( "B: <INPUT TYPE=number ID='BLUE'  VALUE='0' MIN='0' MAX='255' SIZE='25' MAXLENGTH='50'></FORM>");
-  p += ("<p><a href = \"/LED\"><button class=\"btn btn-danger\">Ustaw kolor</button></a></p>\n");
   p += ( (digitalRead(pinLED) == 0) ? "<p><a href = \"/przekaznik0-wylaczony\"><button class=\"btn btn-danger\">przekaźnik WŁĄCZONY</button></a></p>\n" : "<p><a href = \"/przekaznik0-wlaczony\"><button class=\"btn btn-success\">przekaźnik WYŁĄCZONY</button></a></p>\n");
   p += ( (digitalRead(przekaznik1) == 0) ? "<p><a href = \"/przekaznik1-wylaczony\"><button class=\"btn btn-danger\">przekaźnik WŁĄCZONY</button></a></p>\n" : "<p><a href = \"/przekaznik1-wlaczony\"><button class=\"btn btn-success\">przekaźnik WYŁĄCZONY</button></a></p>\n");
   p += ( (digitalRead(przekaznik2) == 0) ? "<p><a href = \"/przekaznik2-wylaczony\"><button class=\"btn btn-danger\">przekaźnik WŁĄCZONY</button></a></p>\n" : "<p><a href = \"/przekaznik2-wlaczony\"><button class=\"btn btn-success\">przekaźnik WYŁĄCZONY</button></a></p>\n");
   p += ( (digitalRead(przekaznik3) == 0) ? "<p><a href = \"/przekaznik3-wylaczony\"><button class=\"btn btn-danger\">przekaźnik WŁĄCZONY</button></a></p>\n" : "<p><a href = \"/przekaznik3-wlaczony\"><button class=\"btn btn-success\">przekaźnik WYŁĄCZONY</button></a></p>\n");
+  p += ( (ledstate == 1) ? "<p><a href = \"/led-wylaczony\"><button class=\"btn btn-danger\">LED ON</button></a></p>\n":"<p><a href = \"/led-wlaczony\"><button class=\"btn btn-success\">LED OFF</button></a></p>\n");
   return p;
 }
 
@@ -102,6 +110,27 @@ void setservers(void) {
     digitalWrite(przekaznik3, HIGH); 
     server.send(200, "text/html", WebPage());
   });
+
+    //adres załączajacy LED
+  server.on("/led-wlaczony", []() {
+    ledstate = 1;
+    for(int led=0; led <=NUM_LEDS; led++)
+    { 
+      setColor(led,200,200,100,10);
+    }
+    server.send(200, "text/html", WebPage());
+  });
+  
+  //adres wyłączajacy LED
+  server.on("/led-wylaczony", []() {
+    ledstate = 0;
+    for(int led=0; led <=NUM_LEDS; led++)
+    { 
+      setColor(led,0,0,0,10);
+    }
+    server.send(200, "text/html", WebPage());
+  });
+
   server.begin(); // Start serwera www
 }
 
@@ -124,21 +153,20 @@ void setup() {
   Serial.begin(115200);
 
   pinMode(pinLED, OUTPUT);
-
   digitalWrite(pinLED, LOW);
-
   pinMode(przekaznik1, OUTPUT);
-
   digitalWrite(przekaznik1, LOW);
-
   pinMode(przekaznik2, OUTPUT);
-
   digitalWrite(przekaznik2, LOW);
-
   pinMode(przekaznik3, OUTPUT);
-
   digitalWrite(przekaznik3, LOW);
 
+  pixels.begin(); 
+  
+  for(int led=0; led <=NUM_LEDS; led++)
+  { 
+      setColor(led,0,0,0,10);
+  }
 
   setservers();
 
