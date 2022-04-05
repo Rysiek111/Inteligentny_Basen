@@ -1,3 +1,18 @@
+/*
+
+Po wgraniu tego kodu należy ustawić czas.
+W tym celu należy wysłać ciąg znaków w formie: YYMMDDwHHMMSSx, czyli
+YY - dwie cyfry roku,
+MM - dwie cyfry miesięcy,
+DD - dwie cyfry dni,
+w - jedna cyfra dnia tygodnia,
+HH - dwie cyfry godziny,
+MM - dwie cyfry minut,
+SS - dwie cyfry sekund
+x - jako zakończenie ciągu znaków,
+należy wysłać to przez monitor portu szeregowego.
+
+*/
 #include <DS3231.h>
 #include <Wire.h>
 
