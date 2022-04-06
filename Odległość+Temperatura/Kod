@@ -2,11 +2,9 @@
 #include <OneWire.h>
 #include <DallasTemperature.h>
 
-
 LiquidCrystal_I2C lcd(0x27, 2, 16);
-OneWire oneWire(0);
+OneWire oneWire(7);
 DallasTemperature sensorsOneWire(&oneWire);
-
 
 byte pla[8] = {
   0b00000,
@@ -88,6 +86,16 @@ byte plz[8] = {
   0b11111,
   0b00000
 };
+byte char0[8] = {
+  0b01100,
+  0b10010,
+  0b10010,
+  0b01100,
+  0b00000,
+  0b00000,
+  0b00000,
+  0b00000
+};
 
 double ultraSonicDistance(int trigPin, int echoPin) {
   digitalWrite(trigPin, LOW);
@@ -104,14 +112,13 @@ int getDS18B20Value(int index) {
   return sensorsOneWire.getTempCByIndex(index);
 }
 
-
 void setup() {
-  pinMode(0, OUTPUT);
-  pinMode(12, OUTPUT);
-  pinMode(13, INPUT);
+  pinMode(3, OUTPUT);
+  pinMode(4, INPUT);
+  pinMode(5, OUTPUT);
   lcd.init();
   lcd.backlight();
-  lcd.createChar(0, pla);
+  lcd.createChar(0, char0);
   lcd.createChar(1, plc);
   lcd.createChar(2, ple);
   lcd.createChar(3, pll);
@@ -125,13 +132,15 @@ void setup() {
 
 void loop() {
   lcd.setCursor(0, 0);
-  lcd.print(ultraSonicDistance(12, 13));
+  lcd.print(String("Odleg"+String("\3")+"o"+String("\6")+""+String("\1")+":") + String(ultraSonicDistance(5, 4)) + String("cm"));
   lcd.setCursor(0, 1);
-  lcd.print(getDS18B20Value(0));
-  if (( 40 == getDS18B20Value(0))) {
-    digitalWrite(0, LOW);
-  }
+  lcd.print(String("Temperatura:") + String(getDS18B20Value(0)));
+  lcd.write((byte)0);
+  lcd.print("C");
   if (( 20 == getDS18B20Value(0))) {
-    digitalWrite(0, HIGH);
+    digitalWrite(3, LOW);
+  }
+  if (( 10 == getDS18B20Value(0))) {
+    digitalWrite(3, HIGH);
   }
 }

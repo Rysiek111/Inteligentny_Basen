@@ -6,7 +6,6 @@
 #define przekaznik3 D3
 #define PINLED D5
 
-
 //LEDY
 #include <Adafruit_NeoPixel.h>
 #define LED_PIN     D5
@@ -20,7 +19,6 @@ void setColor(int led, int redValue, int greenValue, int blueValue, int delayVal
   delay(delayValue);
 }
 //koniec ledy
-
 
 const char* ssid = "Basen";
 const char* password = "1234567890";
@@ -57,9 +55,6 @@ String HTMLPage() {
   p += ( (ledstate == 1) ? "<p><a href = \"/led-wylaczony\"><button class=\"btn btn-danger\">LED ON</button></a></p>\n":"<p><a href = \"/led-wlaczony\"><button class=\"btn btn-success\">LED OFF</button></a></p>\n");
   return p;
 }
-
-
-
 
 String WebPage() {
   return HTMLHeader() + HTMLPage() + HTMLFooter();
@@ -134,7 +129,6 @@ void setservers(void) {
   server.begin(); // Start serwera www
 }
 
-
 void setup() {
   //Sieć Start
   WiFi.mode(WIFI_STA);
@@ -148,7 +142,6 @@ void setup() {
   WiFi.softAPConfig(localIp, gateway, subnet);
   WiFi.softAP("Basen", "1234567890");
   //Sieć koniec kodu
-
 
   Serial.begin(115200);
 
@@ -167,9 +160,7 @@ void setup() {
   { 
       setColor(led,0,0,0,10);
   }
-
   setservers();
-
 }
 
 void loop() {
