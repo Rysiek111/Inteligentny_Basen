@@ -1,14 +1,16 @@
+//dodawanie potrzebnychbibliotek
 #include <ESP8266WiFi.h>
 #include <ESP8266WebServer.h>
+#include <Adafruit_NeoPixel.h>
+//Definiowanie zmiennych
 #define przekaznik0 D0
 #define przekaznik1 D1
 #define przekaznik2 D2
 #define przekaznik3 D3
-
-//LEDY
-#include <Adafruit_NeoPixel.h>
 #define LED_PIN     D5
 #define NUM_LEDS    34
+
+//LEDY
 bool ledstate = 0;
 Adafruit_NeoPixel pixels = Adafruit_NeoPixel(NUM_LEDS, LED_PIN, NEO_GRB + NEO_KHZ800);
 void setColor(int led, int redValue, int greenValue, int blueValue, int delayValue)
