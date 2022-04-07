@@ -1,11 +1,13 @@
+//dodawanie potrzebnychbibliotek
 #include <LiquidCrystal_I2C.h>
 #include <OneWire.h>
 #include <DallasTemperature.h>
-
+//Informowanie Arduino UNO z jaki ekean jest podpięty
 LiquidCrystal_I2C lcd(0x27, 2, 16);
+//Informowanie Arduino UNO gdzie jest podpięty termometr
 OneWire oneWire(7);
 DallasTemperature sensorsOneWire(&oneWire);
-
+//Dodawanie polskich znaków(ąćęłńóśż) oraz znak stopnia.
 byte pla[8] = {
   0b00000,
   0b00000,
@@ -97,6 +99,7 @@ byte char0[8] = {
   0b00000
 };
 
+//Mierzenie odległości przez czujnik ultradźwiękowy.
 double ultraSonicDistance(int trigPin, int echoPin) {
   digitalWrite(trigPin, LOW);
   delayMicroseconds(2);
@@ -107,10 +110,12 @@ double ultraSonicDistance(int trigPin, int echoPin) {
   return (double)(microseconds/58);
 }
 
+//Mieżenie temperatury
 int getDS18B20Value(int index) {
   sensorsOneWire.requestTemperatures();
   return sensorsOneWire.getTempCByIndex(index);
 }
+
 
 void setup() {
   pinMode(3, OUTPUT);
@@ -130,6 +135,7 @@ void setup() {
   sensorsOneWire.begin();
 }
 
+//Wyświetlanie zmierzonych wartości oraz utrzymywanie temperatury w odpowiednim zakresie.
 void loop() {
   lcd.setCursor(0, 0);
   lcd.print(String("Odleg"+String("\3")+"o"+String("\6")+""+String("\1")) + String(ultraSonicDistance(5, 4)) + String("cm"));

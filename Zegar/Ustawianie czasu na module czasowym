@@ -13,6 +13,7 @@ x - jako zakończenie ciągu znaków,
 należy wysłać to przez monitor portu szeregowego.
 
 */
+//dodawanie potrzebnychbibliotek
 #include <DS3231.h>
 #include <Wire.h>
 

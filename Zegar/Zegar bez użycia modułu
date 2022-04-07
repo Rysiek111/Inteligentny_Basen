@@ -1,9 +1,9 @@
 // Jest to sposób bez wykorzystywania modułu czasowego.
-
+//dodawanie potrzebnychbibliotek
 #include <LiquidCrystal_I2C.h>
-
+//Informowanie Arduino UNO z jaki ekean jest podpięty
 LiquidCrystal_I2C lcd(0x27, 2, 16);
-
+//Dodawanie polskich znaków(ąćęłńóśż) oraz znak stopnia.
 byte pla[8] = {
   0b00000,
   0b00000,
@@ -84,6 +84,7 @@ byte plz[8] = {
   0b11111,
   0b00000
 };
+//Tworzenie zmiennych*
 int lata;
 int miesiace;
 int dni;
@@ -103,6 +104,7 @@ void setup() {
   lcd.createChar(6, pls);
   lcd.createChar(7, plz);
   lcd.clear();
+  //Ustawianie daty począykowej
   lata = 2022;
   miesiace = 4;
   dni = 2;
@@ -110,7 +112,7 @@ void setup() {
   minuty = 50;
   sekundy = 0;
 }
-
+//wyświetlenie całej daty
 void loop() {
   lcd.setCursor(0, 0);
   lcd.print(dni);
@@ -132,10 +134,12 @@ void loop() {
   lcd.print(":");
   lcd.setCursor(0, 1);
   lcd.print(godziny);
+//Odliczanie czasu
   if (( sekundy <= 60)) {
     sekundy++;
     delay(1 * 1000);
   }
+    //Wprowadzenie załorzeń zegara
   if (( sekundy == 60)) {
     lcd.clear();
     sekundy = 0;
