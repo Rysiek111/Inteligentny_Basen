@@ -22,6 +22,7 @@ void setColor(int led, int redValue, int greenValue, int blueValue, int delayVal
 const char* ssid = "Basen";
 const char* password = "1234567890";
 
+//Tworzenie strony 
 const unsigned int port = 80;
 ESP8266WebServer server(port);
 String HTMLHeader() { 
@@ -37,6 +38,8 @@ String HTMLHeader() {
 
   return h;
 }
+
+//Stopa strony
 String HTMLFooter() {  
   String f = "";
   f += "<p>Adam Chodura, Ryszard Górczak,Szymon Kosma &copy2021</p></td></tr>";
@@ -44,14 +47,22 @@ String HTMLFooter() {
   f += "</html>\n";
   return f;
 }
+
+//Przyciski
 String HTMLPage() {
   String p = "";
   p += "<p><h3>Sterowanie basenem</h3></p>\n";
-  p += ( (digitalRead(przekaznik0) == 0) ? "<p><a href = \"/przekaznik0-wylaczony\"><button class=\"btn btn-danger\">przekaźnik WŁĄCZONY</button></a></p>\n" : "<p><a href = \"/przekaznik0-wlaczony\"><button class=\"btn btn-success\">przekaźnik WYŁĄCZONY</button></a></p>\n");
-  p += ( (digitalRead(przekaznik1) == 0) ? "<p><a href = \"/przekaznik1-wylaczony\"><button class=\"btn btn-danger\">przekaźnik WŁĄCZONY</button></a></p>\n" : "<p><a href = \"/przekaznik1-wlaczony\"><button class=\"btn btn-success\">przekaźnik WYŁĄCZONY</button></a></p>\n");
-  p += ( (digitalRead(przekaznik2) == 0) ? "<p><a href = \"/przekaznik2-wylaczony\"><button class=\"btn btn-danger\">przekaźnik WŁĄCZONY</button></a></p>\n" : "<p><a href = \"/przekaznik2-wlaczony\"><button class=\"btn btn-success\">przekaźnik WYŁĄCZONY</button></a></p>\n");
-  p += ( (digitalRead(przekaznik3) == 0) ? "<p><a href = \"/przekaznik3-wylaczony\"><button class=\"btn btn-danger\">przekaźnik WŁĄCZONY</button></a></p>\n" : "<p><a href = \"/przekaznik3-wlaczony\"><button class=\"btn btn-success\">przekaźnik WYŁĄCZONY</button></a></p>\n");
-  p += ( (ledstate == 1) ? "<p><a href = \"/led-wylaczony\"><button class=\"btn btn-danger\">LED ON</button></a></p>\n":"<p><a href = \"/led-wlaczony\"><button class=\"btn btn-success\">LED OFF</button></a></p>\n");
+  p += "<p>Pompka:</p>\n";
+  p += "<p>Do basenu</p>\n";
+  p += ( (digitalRead(przekaznik0) == 0) ? "<p><a href = \"/przekaznik0-wylaczony\"><button class=\"btn btn-danger\">ON</button></a></p>\n" : "<p><a href = \"/przekaznik0-wlaczony\"><button class=\"btn btn-success\">OFF</button></a></p>\n");
+  p += "<p>Do zbiornika grzewczego</p>\n";
+  p += ( (digitalRead(przekaznik1) == 0) ? "<p><a href = \"/przekaznik1-wylaczony\"><button class=\"btn btn-danger\">ON</button></a></p>\n" : "<p><a href = \"/przekaznik1-wlaczony\"><button class=\"btn btn-success\">OFF</button></a></p>\n");
+  p += "<p>Napowietrzacz</p>\n";
+  p += ( (digitalRead(przekaznik2) == 0) ? "<p><a href = \"/przekaznik2-wylaczony\"><button class=\"btn btn-danger\">ON</button></a></p>\n" : "<p><a href = \"/przekaznik2-wlaczony\"><button class=\"btn btn-success\">OFF</button></a></p>\n");
+  p += "<p>Elektrozawór</p>\n";
+  p += ( (digitalRead(przekaznik3) == 0) ? "<p><a href = \"/przekaznik3-wylaczony\"><button class=\"btn btn-danger\">ON</button></a></p>\n" : "<p><a href = \"/przekaznik3-wlaczony\"><button class=\"btn btn-success\">OFF</button></a></p>\n");
+  p += "<p>LED</p>\n";
+  p += ( (ledstate == 1) ? "<p><a href = \"/led-wylaczony\"><button class=\"btn btn-danger\">ON</button></a></p>\n":"<p><a href = \"/led-wlaczony\"><button class=\"btn btn-success\">OFF</button></a></p>\n");
   return p;
 }
 
@@ -59,6 +70,9 @@ String WebPage() {
   return HTMLHeader() + HTMLPage() + HTMLFooter();
 }
 
+//Koniec kodu strony
+
+//Działanie przycisków
 void setservers(void) {
 
   server.on("/", []() {
@@ -125,8 +139,9 @@ void setservers(void) {
     server.send(200, "text/html", WebPage());
   });
 
-  server.begin(); // Start serwera www
+  server.begin(); 
 }
+//koniec przycisków
 
 void setup() {
   //Sieć Start
@@ -143,7 +158,7 @@ void setup() {
   //Sieć koniec kodu
 
   Serial.begin(115200);
-
+//Stan przycisków na początku
   pinMode(przekaznik0, OUTPUT);
   digitalWrite(przekaznik0, LOW);
   pinMode(przekaznik1, OUTPUT);
@@ -152,13 +167,16 @@ void setup() {
   digitalWrite(przekaznik2, LOW);
   pinMode(przekaznik3, OUTPUT);
   digitalWrite(przekaznik3, LOW);
-
+//ledy
   pixels.begin(); 
   
   for(int led=0; led <=NUM_LEDS; led++)
   { 
       setColor(led,0,0,0,10);
   }
+  //koniec ledy
+
+// Ustawia wyżej wymienione ustawienia
   setservers();
 }
 

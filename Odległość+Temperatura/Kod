@@ -132,7 +132,7 @@ void setup() {
 
 void loop() {
   lcd.setCursor(0, 0);
-  lcd.print(String("Odleg"+String("\3")+"o"+String("\6")+""+String("\1")+":") + String(ultraSonicDistance(5, 4)) + String("cm"));
+  lcd.print(String("Odleg"+String("\3")+"o"+String("\6")+""+String("\1")) + String(ultraSonicDistance(5, 4)) + String("cm"));
   lcd.setCursor(0, 1);
   lcd.print(String("Temperatura:") + String(getDS18B20Value(0)));
   lcd.write((byte)0);
