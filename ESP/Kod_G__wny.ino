@@ -1,6 +1,6 @@
 #include <ESP8266WiFi.h>
 #include <ESP8266WebServer.h>
-#define pinLED D0
+#define przekaznik0 D0
 #define przekaznik1 D1
 #define przekaznik2 D2
 #define przekaznik3 D3
@@ -47,7 +47,7 @@ String HTMLFooter() {
 String HTMLPage() {
   String p = "";
   p += "<p><h3>Sterowanie basenem</h3></p>\n";
-  p += ( (digitalRead(pinLED) == 0) ? "<p><a href = \"/przekaznik0-wylaczony\"><button class=\"btn btn-danger\">przekaźnik WŁĄCZONY</button></a></p>\n" : "<p><a href = \"/przekaznik0-wlaczony\"><button class=\"btn btn-success\">przekaźnik WYŁĄCZONY</button></a></p>\n");
+  p += ( (digitalRead(przekaznik0) == 0) ? "<p><a href = \"/przekaznik0-wylaczony\"><button class=\"btn btn-danger\">przekaźnik WŁĄCZONY</button></a></p>\n" : "<p><a href = \"/przekaznik0-wlaczony\"><button class=\"btn btn-success\">przekaźnik WYŁĄCZONY</button></a></p>\n");
   p += ( (digitalRead(przekaznik1) == 0) ? "<p><a href = \"/przekaznik1-wylaczony\"><button class=\"btn btn-danger\">przekaźnik WŁĄCZONY</button></a></p>\n" : "<p><a href = \"/przekaznik1-wlaczony\"><button class=\"btn btn-success\">przekaźnik WYŁĄCZONY</button></a></p>\n");
   p += ( (digitalRead(przekaznik2) == 0) ? "<p><a href = \"/przekaznik2-wylaczony\"><button class=\"btn btn-danger\">przekaźnik WŁĄCZONY</button></a></p>\n" : "<p><a href = \"/przekaznik2-wlaczony\"><button class=\"btn btn-success\">przekaźnik WYŁĄCZONY</button></a></p>\n");
   p += ( (digitalRead(przekaznik3) == 0) ? "<p><a href = \"/przekaznik3-wylaczony\"><button class=\"btn btn-danger\">przekaźnik WŁĄCZONY</button></a></p>\n" : "<p><a href = \"/przekaznik3-wlaczony\"><button class=\"btn btn-success\">przekaźnik WYŁĄCZONY</button></a></p>\n");
@@ -66,12 +66,12 @@ void setservers(void) {
   });
 
   server.on("/przekaznik0-wlaczony", []() {
-    digitalWrite(pinLED, LOW); 
+    digitalWrite(przekaznik0, LOW); 
     server.send(200, "text/html", WebPage());
   });
  
   server.on("/przekaznik0-wylaczony", []() {
-    digitalWrite(pinLED, HIGH); 
+    digitalWrite(przekaznik0, HIGH); 
     server.send(200, "text/html", WebPage());
   });
   
@@ -144,8 +144,8 @@ void setup() {
 
   Serial.begin(115200);
 
-  pinMode(pinLED, OUTPUT);
-  digitalWrite(pinLED, LOW);
+  pinMode(przekaznik0, OUTPUT);
+  digitalWrite(przekaznik0, LOW);
   pinMode(przekaznik1, OUTPUT);
   digitalWrite(przekaznik1, LOW);
   pinMode(przekaznik2, OUTPUT);
