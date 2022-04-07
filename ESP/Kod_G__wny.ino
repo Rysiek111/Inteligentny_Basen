@@ -4,7 +4,6 @@
 #define przekaznik1 D1
 #define przekaznik2 D2
 #define przekaznik3 D3
-#define PINLED D5
 
 //LEDY
 #include <Adafruit_NeoPixel.h>
@@ -40,7 +39,7 @@ String HTMLHeader() {
 }
 String HTMLFooter() {  
   String f = "";
-  f += "<p>Adam Chodóra, Ryszard Górczak,Szymon Kosma &copy2021</p></td></tr>";
+  f += "<p>Adam Chodura, Ryszard Górczak,Szymon Kosma &copy2021</p></td></tr>";
   f += "</body>\n";
   f += "</html>\n";
   return f;
