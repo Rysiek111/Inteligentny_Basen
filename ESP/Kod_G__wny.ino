@@ -44,7 +44,7 @@ String HTMLHeader() {
 //Stopa strony
 String HTMLFooter() {  
   String f = "";
-  f += "<p>Adam Chodura, Ryszard Górczak,Szymon Kosma &copy2021</p></td></tr>";
+  f += "<p>Adam Chodura, Ryszard Górczak,Szymon Kosma</p></td></tr>";
   f += "</body>\n";
   f += "</html>\n";
   return f;
