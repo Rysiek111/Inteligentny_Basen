@@ -56,15 +56,15 @@ String HTMLPage() {
   p += "<p><h3>Sterowanie basenem</h3></p>\n";
   p += "<p>Pompka:</p>\n";
   p += "<p>Do basenu</p>\n";
-  p += ( (digitalRead(przekaznik0) == 0) ? "<p><a href = \"/przekaznik0-wylaczony\"><button class=\"btn btn-danger\">ON</button></a></p>\n" : "<p><a href = \"/przekaznik0-wlaczony\"><button class=\"btn btn-success\">OFF</button></a></p>\n");
+  p += ( (digitalRead(przekaznik0) == 0) ? "<p><a href = \"/przekaznik0-wylaczony\"><button class=\"btn btn-danger\">OFF</button></a></p>\n" : "<p><a href = \"/przekaznik0-wlaczony\"><button class=\"btn btn-success\">ON</button></a></p>\n");
   p += "<p>Do zbiornika grzewczego</p>\n";
-  p += ( (digitalRead(przekaznik1) == 0) ? "<p><a href = \"/przekaznik1-wylaczony\"><button class=\"btn btn-danger\">ON</button></a></p>\n" : "<p><a href = \"/przekaznik1-wlaczony\"><button class=\"btn btn-success\">OFF</button></a></p>\n");
+  p += ( (digitalRead(przekaznik1) == 0) ? "<p><a href = \"/przekaznik1-wylaczony\"><button class=\"btn btn-danger\">OFF</button></a></p>\n" : "<p><a href = \"/przekaznik1-wlaczony\"><button class=\"btn btn-success\">ON</button></a></p>\n");
   p += "<p>Napowietrzacz</p>\n";
-  p += ( (digitalRead(przekaznik2) == 0) ? "<p><a href = \"/przekaznik2-wylaczony\"><button class=\"btn btn-danger\">ON</button></a></p>\n" : "<p><a href = \"/przekaznik2-wlaczony\"><button class=\"btn btn-success\">OFF</button></a></p>\n");
+  p += ( (digitalRead(przekaznik2) == 0) ? "<p><a href = \"/przekaznik2-wylaczony\"><button class=\"btn btn-danger\">OFF</button></a></p>\n" : "<p><a href = \"/przekaznik2-wlaczony\"><button class=\"btn btn-success\">ON</button></a></p>\n");
   p += "<p>Elektrozawór</p>\n";
-  p += ( (digitalRead(przekaznik3) == 0) ? "<p><a href = \"/przekaznik3-wylaczony\"><button class=\"btn btn-danger\">ON</button></a></p>\n" : "<p><a href = \"/przekaznik3-wlaczony\"><button class=\"btn btn-success\">OFF</button></a></p>\n");
+  p += ( (digitalRead(przekaznik3) == 0) ? "<p><a href = \"/przekaznik3-wylaczony\"><button class=\"btn btn-danger\">OFF</button></a></p>\n" : "<p><a href = \"/przekaznik3-wlaczony\"><button class=\"btn btn-success\">ON</button></a></p>\n");
   p += "<p>LED</p>\n";
-  p += ( (ledstate == 1) ? "<p><a href = \"/led-wylaczony\"><button class=\"btn btn-danger\">ON</button></a></p>\n":"<p><a href = \"/led-wlaczony\"><button class=\"btn btn-success\">OFF</button></a></p>\n");
+  p += ( (ledstate == 1) ? "<p><a href = \"/led-wylaczony\"><button class=\"btn btn-danger\">OFF</button></a></p>\n":"<p><a href = \"/led-wlaczony\"><button class=\"btn btn-success\">ON</button></a></p>\n");
   return p;
 }
 
